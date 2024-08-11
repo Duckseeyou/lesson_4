@@ -1,8 +1,8 @@
 import java.util.Random;
 
 public class Main {
-    public static int bossHealth = 900;
-    public static int bossDamage = 50;
+    public static int bossHealth = 1200;
+    public static int bossDamage = 80;
     public static String bossDefence;
     public static int[] heroesHealth = {290, 270, 250, 270, 450, 250, 300, 270};
     public static int[] heroesDamage = {20, 15, 10, 0, 5, 10, 0, 15};
@@ -32,6 +32,7 @@ public class Main {
         }
         else {
             isStunned = false;
+            System.out.println("Boss is stunned");
         }
         System.out.println();
         heroesAttack();
@@ -85,7 +86,7 @@ public class Main {
                 if (heroesHealth[indexOfGolem] > 0) {
                     if (i != indexOfGolem) {
                         trueDamage -= absorbedDamage;
-                        heroesHealth[indexOfGolem] -= absorbedDamage;
+                        heroesHealth[indexOfGolem] = (int) Math.max(heroesHealth[indexOfGolem] - absorbedDamage, 0);
                         if (heroesHealth[indexOfGolem] <= 0 && heroesHealth[indexOfWitcher] > 0) {
                             heroesHealth[indexOfGolem] = heroesHealth[indexOfWitcher];
                             System.out.println("Witcher gifted " + heroesAttackType[i] + " his own life");
@@ -94,10 +95,10 @@ public class Main {
                 }
                 heroesHealth[i] = Math.max((heroesHealth[i] - trueDamage), 0);
                 System.out.println("BOSS did " + trueDamage + " damage to " + heroesAttackType[i]);
-                if (heroesHealth[i] <= 0 && heroesHealth[indexOfWitcher] > 0) {
+                if (heroesHealth[i] == 0 && heroesHealth[indexOfWitcher] > 0) {
                     heroesHealth[i] = heroesHealth[indexOfWitcher];
                     heroesHealth[indexOfWitcher] = 0;
-                    System.out.println("Witcher gifted " + heroesAttackType[i] + " his own life");
+                    System.out.println("⩲⩲ Witcher gifted " + heroesAttackType[i] + " his own life");
                 }
             } else {
                 System.out.println(heroesAttackType[i] + " is dead");
@@ -114,7 +115,7 @@ public class Main {
                     if(new Random().nextBoolean()){
                         isStunned = true;
                         if (isStunned){
-                            System.out.println("Boss is stunned");
+                            System.out.println("⨂⨂ Thor stunned Boss for the next round");
                         }
                     }
                 }
